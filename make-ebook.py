@@ -48,6 +48,7 @@ def main():
     file_name = '%s - %d.epub' % (book.title, len(spine))
     print('- Saving: %s...' % file_name)
     epub.write_epub(file_name, book)
+    print('Finished!')
 
 
 if __name__ == '__main__':
