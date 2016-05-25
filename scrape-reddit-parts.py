@@ -8,8 +8,6 @@ USERNAME = '_9MOTHER9HORSE9EYES9'
 
 # Follow API guidelines: https://github.com/reddit/reddit/wiki/API#rules
 USER_AGENT = '9m9h9e9 e-book script:v0.2 (by /u/cryzed-)'
-PARTS_JSON_PATH = 'parts.json'
-MAX_TITLE_LENGTH = 64
 SPINE_PATH = os.path.join('parts', 'spine.json')
 
 

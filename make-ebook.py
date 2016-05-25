@@ -7,7 +7,7 @@ import textwrap
 from ebooklib import epub
 
 SPINE_PATH = os.path.join('parts', 'spine.json')
-USERNAME = '_9MOTHER9HORSE9EYES9'
+AUTHOR = '_9MOTHER9HORSE9EYES9'
 MAX_TITLE_LENGTH = 64
 
 
@@ -18,7 +18,7 @@ def main():
 
     book = epub.EpubBook()
     book.set_title('The Interface Series')
-    book.add_author(USERNAME)
+    book.add_author(AUTHOR)
     book.set_language('en')
     book.toc = []
 
