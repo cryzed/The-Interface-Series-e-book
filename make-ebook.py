@@ -45,7 +45,7 @@ def main():
     book.add_item(epub.EpubNav())
     book.spine = ['nav', *book.items]
 
-    file_name = '%s - %d.epub' % (book.title, len(spine))
+    file_name = book.title + '.epub'
     print('- Saving: %s...' % file_name)
     epub.write_epub(file_name, book)
     print('Finished!')
