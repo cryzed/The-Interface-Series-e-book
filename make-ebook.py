@@ -24,18 +24,15 @@ def main():
     book.set_language(LANGUAGE)
 
     print('- Loading parts...')
-    sorted_spine = sorted(spine.items(), key=operator.itemgetter(1))
     chapters = []
-    for index, (id_, created) in enumerate(sorted_spine, start=1):
-        file_name = id_ + '.xhtml'
-        chapter = epub.EpubHtml(file_name=file_name)
-
+    for id_, created in sorted(spine.items(), key=operator.itemgetter(1)):
         with open(os.path.join('parts', id_ + '.html')) as file:
             html_content = file.read()
-
         with open(os.path.join('parts', id_ + '.txt')) as file:
             text = file.read()
 
+        file_name = id_ + '.xhtml'
+        chapter = epub.EpubHtml(file_name=file_name)
         chapter.content = html_content
         book.add_item(chapter)
         chapters.append(chapter)

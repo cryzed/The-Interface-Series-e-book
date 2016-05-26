@@ -13,10 +13,11 @@ SPINE_PATH = os.path.join('parts', 'spine.json')
 
 def main():
     client = praw.Reddit(user_agent=USER_AGENT)
-    r = client.get_redditor(USERNAME)
+    redditor = client.get_redditor(USERNAME)
     parts = {}
+
     print('- Scraping parts...')
-    for index, thing in enumerate(itertools.chain(r.get_comments(limit=None), r.get_submitted(limit=None)), start=1):
+    for thing in itertools.chain(redditor.get_comments(limit=None), redditor.get_submitted(limit=None)):
         html = getattr(thing, 'body_html', getattr(thing, 'selftext_html', None))
         if not html:
             print('- Skipping %s: no content' % thing.permalink)
