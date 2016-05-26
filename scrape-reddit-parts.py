@@ -23,7 +23,7 @@ def main():
             print('- Skipping %s: no content' % thing.permalink)
             continue
 
-        print('- Adding: %s' % thing.id)
+        print('- Adding: %s...' % thing.id)
         text = getattr(thing, 'body', getattr(thing, 'selftext', None))
         parts[thing.id] = (thing.created, html, text)
 

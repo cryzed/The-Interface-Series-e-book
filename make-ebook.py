@@ -10,7 +10,9 @@ SPINE_PATH = os.path.join('parts', 'spine.json')
 AUTHOR = '_9MOTHER9HORSE9EYES9'
 TITLE = 'The Interface Series'
 LANGUAGE = 'en'
-MAX_TITLE_LENGTH = 48
+
+# There's no real rhyme or reason to this, I just tried to find a value which looks good on my e-book reader
+MAX_TITLE_LENGTH = 56
 
 
 def main():
