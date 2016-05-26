@@ -8,7 +8,9 @@ from ebooklib import epub
 
 SPINE_PATH = os.path.join('parts', 'spine.json')
 AUTHOR = '_9MOTHER9HORSE9EYES9'
-MAX_TITLE_LENGTH = 64
+TITLE = 'The Interface Series'
+LANGUAGE = 'en'
+MAX_TITLE_LENGTH = 48
 
 
 def main():
@@ -17,13 +19,13 @@ def main():
         spine = json.load(file)
 
     book = epub.EpubBook()
-    book.set_title('The Interface Series')
+    book.set_title(TITLE)
     book.add_author(AUTHOR)
-    book.set_language('en')
-    book.toc = []
+    book.set_language(LANGUAGE)
 
     print('- Loading parts...')
     sorted_spine = sorted(spine.items(), key=operator.itemgetter(1))
+    chapters = []
     for index, (id_, created) in enumerate(sorted_spine, start=1):
         file_name = id_ + '.xhtml'
         chapter = epub.EpubHtml(file_name=file_name)
@@ -36,6 +38,7 @@ def main():
 
         chapter.content = html_content
         book.add_item(chapter)
+        chapters.append(chapter)
 
         # Have to unescape HTML entities in the text content
         title = textwrap.shorten(html.unescape(text), MAX_TITLE_LENGTH, placeholder='...')
@@ -43,9 +46,9 @@ def main():
 
     book.add_item(epub.EpubNcx())
     book.add_item(epub.EpubNav())
-    book.spine = ['nav', *book.items]
+    book.spine = ['nav', *chapters]
 
-    file_name = book.title + '.epub'
+    file_name = '%s #%d.epub' % (book.title, len(chapters))
     print('- Saving: %s...' % file_name)
     epub.write_epub(file_name, book)
     print('Finished!')
