@@ -23,8 +23,12 @@ def main():
             print('- Skipping %s: no content' % thing.permalink)
             continue
 
-        print('- Adding: %s...' % thing.id)
         text = getattr(thing, 'body', getattr(thing, 'selftext', None))
+        if text == '[removed]':
+            print('- Skipping %s: removed' % thing.permalink)
+            continue
+
+        print('- Adding: %s...' % thing.id)
         parts[thing.id] = (thing.created, html, text)
 
     if os.path.exists(SPINE_PATH):
