@@ -1,5 +1,6 @@
 # The Interface Series e-book
-Scripts to automatically create an e-book of [The Interface Series](https://www.reddit.com/r/9M9H9E9/).
+Scripts to automatically create an e-book of [The Interface Series](https://www.reddit.com/r/9M9H9E9/). The latest
+release can always be found [here](https://github.com/cryzed/The-Interface-Series-e-book/releases).
 
 ## Credits
 Thanks to...
