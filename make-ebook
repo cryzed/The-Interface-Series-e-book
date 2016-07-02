@@ -2,37 +2,59 @@
 
 import html
 import json
-import operator
 import os
 import textwrap
 
 from ebooklib import epub
 
-SPINE_PATH = os.path.join('parts', 'spine.json')
 AUTHOR = '_9MOTHER9HORSE9EYES9'
 TITLE = 'The Interface Series'
 LANGUAGE = 'en'
+FRONT_COVER_FILE_NAME = 'front-cover.jpg'
+BACK_COVER_FILE_NAME = 'back-cover.jpg'
 
 # There's no real rhyme or reason to this, I just tried to find a value which looks good on my e-book reader
 MAX_TITLE_LENGTH = 56
 
 
 def main():
-    print('- Loading spine...')
-    with open(SPINE_PATH) as file:
-        spine = json.load(file)
+    spine = {}
+    for username in os.listdir('parts'):
+        print('-', username)
+        print('  - Loading spine...')
+
+        spine_path = os.path.join('parts', username, 'spine.json')
+        with open(spine_path) as file:
+            user_spine = json.load(file)
+            spine.update({id_: (username, created) for id_, created in user_spine.items()})
 
     book = epub.EpubBook()
     book.set_title(TITLE)
     book.add_author(AUTHOR)
     book.set_language(LANGUAGE)
 
+    # Front cover
+    with open(FRONT_COVER_FILE_NAME, 'rb') as file:
+        book.set_cover(FRONT_COVER_FILE_NAME, file.read())
+    book.get_item_with_id('cover').is_linear = True
+
+    # End cover image
+    back_cover_image = epub.EpubCover('back-cover-img', 'cover.jpg')
+    with open(BACK_COVER_FILE_NAME, 'rb') as file:
+        back_cover_image.content = file.read()
+    book.add_item(back_cover_image)
+
+    # End cover html
+    back_cover = epub.EpubCoverHtml('back-cover', 'back-cover.xhtml', 'cover.jpg')
+    back_cover.is_linear = True
+    book.add_item(back_cover)
+
     print('- Loading parts...')
     chapters = []
-    for id_, created in sorted(spine.items(), key=operator.itemgetter(1)):
-        with open(os.path.join('parts', id_ + '.html')) as file:
+    for id_, (username, created) in sorted(spine.items(), key=lambda item: item[1][1]):
+        with open(os.path.join('parts', username, id_ + '.html')) as file:
             html_content = file.read()
-        with open(os.path.join('parts', id_ + '.txt')) as file:
+        with open(os.path.join('parts', username, id_ + '.txt')) as file:
             text = file.read()
 
         file_name = id_ + '.xhtml'
@@ -42,12 +64,12 @@ def main():
         chapters.append(chapter)
 
         # Have to unescape HTML entities in the text content
-        title = textwrap.shorten(html.unescape(text), MAX_TITLE_LENGTH, placeholder='...')
+        title = textwrap.shorten('%s: %s' % (username, html.unescape(text)), MAX_TITLE_LENGTH, placeholder='...')
         book.toc.append(epub.Link(file_name, title, id_))
 
     book.add_item(epub.EpubNcx())
     book.add_item(epub.EpubNav())
-    book.spine = ['nav', *chapters]
+    book.spine = ['cover', 'nav', *chapters, 'back-cover']
 
     file_name = '%s #%d.epub' % (book.title, len(chapters))
     print('- Saving: %s...' % file_name)
