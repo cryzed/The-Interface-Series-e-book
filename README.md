@@ -7,7 +7,7 @@ Thanks to...
 
 * the great community and moderation team over at the [9M9H9E9](https://www.reddit.com/r/9M9H9E9/) subreddit!
 * [beaucoupzero](https://www.reddit.com/user/beaucoupzero/) and [jonnywin](https://www.reddit.com/user/jonnywin)
-for providing the awesome front- and back-covers!
+for providing the awesome front- and back-covers and all those who took part in the cover contest!
 * and of course the mysterious author [_9MOTHER9HORSE9EYES9](https://www.reddit.com/user/_9MOTHER9HORSE9EYES9)!
 
 ## Notes
