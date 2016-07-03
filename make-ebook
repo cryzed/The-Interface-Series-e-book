@@ -38,14 +38,14 @@ def main():
         book.set_cover(FRONT_COVER_FILE_NAME, file.read())
     book.get_item_with_id('cover').is_linear = True
 
-    # End cover image
-    back_cover_image = epub.EpubCover('back-cover-img', 'cover.jpg')
+    # Back cover image
+    back_cover_image = epub.EpubCover('back-cover-image', BACK_COVER_FILE_NAME)
     with open(BACK_COVER_FILE_NAME, 'rb') as file:
         back_cover_image.content = file.read()
     book.add_item(back_cover_image)
 
-    # End cover html
-    back_cover = epub.EpubCoverHtml('back-cover', 'back-cover.xhtml', 'cover.jpg')
+    # Back cover html
+    back_cover = epub.EpubCoverHtml('back-cover', 'back-cover.xhtml', BACK_COVER_FILE_NAME)
     back_cover.is_linear = True
     book.add_item(back_cover)
 
@@ -54,6 +54,7 @@ def main():
     for id_, (username, created) in sorted(spine.items(), key=lambda item: item[1][1]):
         with open(os.path.join('parts', username, id_ + '.html')) as file:
             html_content = file.read()
+
         with open(os.path.join('parts', username, id_ + '.txt')) as file:
             text = file.read()
 
